@@ -21,7 +21,7 @@ public class Users {
     @Column(name = "email", unique = true)
     private String email;
 
-    @Column(name = "hashedPassword", unique = true)
+    @Column(name = "hashedPassword")
     private String hashedPassword;
 
     @Column(name = "aboutMe", nullable = true)
