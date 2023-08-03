@@ -1,17 +1,14 @@
 package com.stackOverflowAPI.MyFirstJavaProject.DTO;
 
 import com.stackOverflowAPI.MyFirstJavaProject.Entities.Users;
-import lombok.Data;
+import lombok.*;
 
 @Data
+@Builder
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class RegisterUserResponseDTO {
-    private int id;
-    private  String displayName;
+    private String displayName;
     private String message;
-
-    public RegisterUserResponseDTO(Users user){
-        id = user.getId();
-        displayName = user.getDisplayName();
-        message = "User Successfully created";
-    }
+    private String token;
 }
