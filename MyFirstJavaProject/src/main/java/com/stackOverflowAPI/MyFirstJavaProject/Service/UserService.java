@@ -3,6 +3,7 @@ package com.stackOverflowAPI.MyFirstJavaProject.Service;
 import com.stackOverflowAPI.MyFirstJavaProject.DAO.UserRepository;
 import com.stackOverflowAPI.MyFirstJavaProject.DTO.RegisterUserDTO;
 import com.stackOverflowAPI.MyFirstJavaProject.DTO.RegisterUserResponseDTO;
+import com.stackOverflowAPI.MyFirstJavaProject.DTO.SignInDTO;
 import com.stackOverflowAPI.MyFirstJavaProject.Entities.Users;
 import com.stackOverflowAPI.MyFirstJavaProject.ExceptionHandler.DatabaseException;
 import com.stackOverflowAPI.MyFirstJavaProject.Role;
@@ -46,5 +47,25 @@ public class UserService {
         }catch (Exception ex){
             throw new DatabaseException();
         }
+    }
+
+    public RegisterUserResponseDTO signIn(SignInDTO userDetails){
+        Users user = null;
+        try {
+            user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow();
+        }catch (Exception e){
+
+        }
+        if(!bCryptPasswordEncoder.matches(userDetails.getPassword(), user.getHashedPassword())){
+//            throw an error
+        }
+        String jwt = jwtService.generateToken(user);
+        RegisterUserResponseDTO signedInUser = new RegisterUserResponseDTO()
+                .builder()
+                .displayName(user.getDisplayName())
+                .message("Successful")
+                .token(jwt)
+                .build();
+        return signedInUser;
     }
 }
