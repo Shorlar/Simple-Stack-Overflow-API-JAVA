@@ -8,14 +8,14 @@ import com.stackOverflowAPI.MyFirstJavaProject.Entities.Users;
 import com.stackOverflowAPI.MyFirstJavaProject.ExceptionHandler.DatabaseException;
 import com.stackOverflowAPI.MyFirstJavaProject.Role;
 import com.stackOverflowAPI.MyFirstJavaProject.config.JwtService;
-import jakarta.persistence.EntityExistsException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +24,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
     public RegisterUserResponseDTO registerUser(RegisterUserDTO userDetails) {
         System.out.println("In register user method");
@@ -36,7 +37,7 @@ public class UserService {
         try{
             Users registeredUser = userRepository.save(newUser);
             String jwt = jwtService.generateToken(registeredUser);
-            RegisterUserResponseDTO createdUser = new RegisterUserResponseDTO()
+            RegisterUserResponseDTO createdUser = RegisterUserResponseDTO
                     .builder()
                     .displayName(registeredUser.getDisplayName())
                     .message("Successful")
@@ -50,22 +51,19 @@ public class UserService {
     }
 
     public RegisterUserResponseDTO signIn(SignInDTO userDetails){
-        Users user = null;
-        try {
-            user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow();
-        }catch (Exception e){
 
-        }
-        if(!bCryptPasswordEncoder.matches(userDetails.getPassword(), user.getHashedPassword())){
-//            throw an error
-        }
-        String jwt = jwtService.generateToken(user);
-        RegisterUserResponseDTO signedInUser = new RegisterUserResponseDTO()
-                .builder()
+    try{
+        Authentication authentication = authenticationManager.authenticate
+                (new UsernamePasswordAuthenticationToken(userDetails.getUsername(), userDetails.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        Users user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow();
+        String token = jwtService.generateToken(user);
+        return RegisterUserResponseDTO.builder()
                 .displayName(user.getDisplayName())
                 .message("Successful")
-                .token(jwt)
-                .build();
-        return signedInUser;
+                .token(token).build();
+    }catch (Exception e){
+        throw new DatabaseException(e.getMessage(), e);
     }
+}
 }

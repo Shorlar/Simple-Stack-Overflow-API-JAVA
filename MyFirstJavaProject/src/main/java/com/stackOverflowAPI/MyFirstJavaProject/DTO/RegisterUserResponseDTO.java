@@ -1,12 +1,11 @@
 package com.stackOverflowAPI.MyFirstJavaProject.DTO;
 
-import com.stackOverflowAPI.MyFirstJavaProject.Entities.Users;
 import lombok.*;
 
 @Data
 @Builder
 @AllArgsConstructor
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class RegisterUserResponseDTO {
     private String displayName;
     private String message;

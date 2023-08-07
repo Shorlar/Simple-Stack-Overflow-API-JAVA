@@ -2,6 +2,7 @@ package com.stackOverflowAPI.MyFirstJavaProject.Controller;
 
 import com.stackOverflowAPI.MyFirstJavaProject.DTO.RegisterUserDTO;
 import com.stackOverflowAPI.MyFirstJavaProject.DTO.RegisterUserResponseDTO;
+import com.stackOverflowAPI.MyFirstJavaProject.DTO.SignInDTO;
 import com.stackOverflowAPI.MyFirstJavaProject.Entities.Users;
 import com.stackOverflowAPI.MyFirstJavaProject.Service.UserService;
 import jakarta.validation.Valid;
@@ -26,5 +27,10 @@ public class UsersController {
     @PostMapping("register")
     public ResponseEntity<RegisterUserResponseDTO> registerUser(@RequestBody() @Valid RegisterUserDTO registerUser){
         return new ResponseEntity<>(userService.registerUser(registerUser), HttpStatus.CREATED);
+    }
+
+    @PostMapping("sign-in")
+    public ResponseEntity<RegisterUserResponseDTO> signIn(@RequestBody()SignInDTO userDetails){
+        return new ResponseEntity<>(userService.signIn(userDetails), HttpStatus.OK);
     }
 }
