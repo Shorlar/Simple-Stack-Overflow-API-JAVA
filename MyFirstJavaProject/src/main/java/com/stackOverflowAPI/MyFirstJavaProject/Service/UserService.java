@@ -25,7 +25,6 @@ public class UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-
     public RegisterUserResponseDTO registerUser(RegisterUserDTO userDetails) {
         System.out.println("In register user method");
         Users newUser = new Users();
@@ -65,5 +64,6 @@ public class UserService {
     }catch (Exception e){
         throw new DatabaseException(e.getMessage(), e);
     }
+
 }
 }
