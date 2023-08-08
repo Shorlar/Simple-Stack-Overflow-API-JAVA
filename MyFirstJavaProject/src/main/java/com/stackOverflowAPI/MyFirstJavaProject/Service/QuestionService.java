@@ -7,13 +7,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class QuestionService {
 
-    private QuestionRepository questionRepository;
-
-    public QuestionService(QuestionRepository repository){
-        questionRepository = repository;
-    }
+    private final QuestionRepository repository;
 
     public void createQuestion(CreateQuestionDTO questionDTO){
 //           get user details to add to the instance of question
