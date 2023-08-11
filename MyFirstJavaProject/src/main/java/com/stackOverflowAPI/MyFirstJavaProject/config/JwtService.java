@@ -30,6 +30,10 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
+//    public String getUsername(String token) {
+//        return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody().getSubject();
+//    }
+
     private Claims extractClaims(String token){
         System.out.println("Extracting all claims");
         return Jwts
@@ -42,7 +46,7 @@ public class JwtService {
 
     private Key getSignInKey() {
         System.out.println("Getting sign in key");
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+        byte[] keyBytes = Decoders.BASE64.decode("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
         return Keys.hmacShaKeyFor(keyBytes);
     }
 

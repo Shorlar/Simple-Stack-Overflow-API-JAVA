@@ -2,10 +2,7 @@ package com.stackOverflowAPI.MyFirstJavaProject.Entities;
 
 import com.stackOverflowAPI.MyFirstJavaProject.Role;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,7 +16,7 @@ import java.util.List;
 @Data
 @Builder
 @AllArgsConstructor
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class Users implements UserDetails {
 
     @Id
@@ -41,14 +38,14 @@ public class Users implements UserDetails {
     @CreationTimestamp
     private Instant createdTime;
 
-    @OneToMany(mappedBy = "users")
-    private List<Questions> questions;
-
-    @OneToMany(mappedBy = "users")
-    private List<Votes> votes;
-
-    @OneToMany(mappedBy = "users")
-    private List<Answer> answers;
+//    @OneToMany(mappedBy = "users", fetch = FetchType.LAZY)
+//    private List<Questions> questions;
+//
+//    @OneToMany(mappedBy = "users", fetch = FetchType.LAZY)
+//    private List<Votes> votes;
+//
+//    @OneToMany(mappedBy = "users", fetch = FetchType.LAZY)
+//    private List<Answer> answers;
 
     @Enumerated(EnumType.STRING)
     private Role role;

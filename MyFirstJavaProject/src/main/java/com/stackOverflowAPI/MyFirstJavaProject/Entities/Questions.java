@@ -37,9 +37,9 @@ public class Questions {
     @JoinColumn(name = "user_id")
     private Users users;
 
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "question", fetch = FetchType.EAGER)
     private List<Answer> answers;
 
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "question", fetch = FetchType.EAGER)
     private List<Votes> votes;
 }

@@ -13,6 +13,7 @@ public class QuestionService {
     private final QuestionRepository repository;
 
     public void createQuestion(CreateQuestionDTO questionDTO){
+        System.out.println(questionDTO);
 //           get user details to add to the instance of question
 //        Store the question
     }

@@ -28,7 +28,7 @@ public class UserService {
     public RegisterUserResponseDTO registerUser(RegisterUserDTO userDetails) {
         System.out.println("In register user method");
         Users newUser = new Users();
-        newUser.setAboutMe(userDetails.aboutMe);
+//        newUser.setAboutMe(userDetails.aboutMe);
         newUser.setEmail(userDetails.email);
         newUser.setDisplayName(userDetails.displayName);
         newUser.setHashedPassword(bCryptPasswordEncoder.encode(userDetails.password));
@@ -54,7 +54,6 @@ public class UserService {
     try{
         Authentication authentication = authenticationManager.authenticate
                 (new UsernamePasswordAuthenticationToken(userDetails.getUsername(), userDetails.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
         Users user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow();
         String token = jwtService.generateToken(user);
         return RegisterUserResponseDTO.builder()
