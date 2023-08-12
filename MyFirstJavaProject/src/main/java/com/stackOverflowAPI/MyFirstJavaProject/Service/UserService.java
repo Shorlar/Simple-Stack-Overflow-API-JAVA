@@ -26,9 +26,8 @@ public class UserService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     public RegisterUserResponseDTO registerUser(RegisterUserDTO userDetails) {
-        System.out.println("In register user method");
         Users newUser = new Users();
-//        newUser.setAboutMe(userDetails.aboutMe);
+        newUser.setAboutMe(userDetails.aboutMe);
         newUser.setEmail(userDetails.email);
         newUser.setDisplayName(userDetails.displayName);
         newUser.setHashedPassword(bCryptPasswordEncoder.encode(userDetails.password));
@@ -42,7 +41,6 @@ public class UserService {
                     .message("Successful")
                     .token(jwt)
                     .build();
-            System.out.println(createdUser.toString());
             return createdUser;
         }catch (Exception ex){
             throw new DatabaseException();
