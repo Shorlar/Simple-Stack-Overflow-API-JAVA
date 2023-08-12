@@ -26,7 +26,6 @@ public class UserService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     public RegisterUserResponseDTO registerUser(RegisterUserDTO userDetails) {
-        System.out.println("In register user method");
         Users newUser = new Users();
         newUser.setAboutMe(userDetails.aboutMe);
         newUser.setEmail(userDetails.email);
@@ -42,7 +41,6 @@ public class UserService {
                     .message("Successful")
                     .token(jwt)
                     .build();
-            System.out.println(createdUser.toString());
             return createdUser;
         }catch (Exception ex){
             throw new DatabaseException();
@@ -54,7 +52,6 @@ public class UserService {
     try{
         Authentication authentication = authenticationManager.authenticate
                 (new UsernamePasswordAuthenticationToken(userDetails.getUsername(), userDetails.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
         Users user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow();
         String token = jwtService.generateToken(user);
         return RegisterUserResponseDTO.builder()

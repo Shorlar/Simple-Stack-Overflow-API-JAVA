@@ -20,20 +20,17 @@ public class ApplicationConfig {
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder(){
-        System.out.println("In bycrpt");
         return  new BCryptPasswordEncoder();
     }
 
     @Bean
     public UserDetailsService userDetailsService(){
-        System.out.println("In user details service application config");
         return username -> userRepository.findByEmail(username)
                 .orElseThrow(() -> new EntityExistsException("User does not exist"));
     }
 
     @Bean
     public AuthenticationProvider authenticationProvider(){
-        System.out.println("In Authentication provider");
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService());
         authProvider.setPasswordEncoder(bCryptPasswordEncoder());
@@ -42,7 +39,6 @@ public class ApplicationConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-        System.out.println("in Authentication manager");
         return  configuration.getAuthenticationManager();
     }
 }
