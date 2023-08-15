@@ -1,7 +1,10 @@
 package com.stackOverflowAPI.MyFirstJavaProject.Entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
@@ -9,6 +12,9 @@ import java.util.List;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Questions {
 
     @Id
@@ -24,10 +30,10 @@ public class Questions {
     @Column()
     private String questionBody;
 
-    @Column(nullable = false, columnDefinition = "boolean default true")
+    @Column(columnDefinition = "boolean default true")
     private Boolean subscribeAnswer;
 
-    @Column(nullable = false, columnDefinition = "int default 0")
+    @Column(columnDefinition = "int default 0")
     private int score;
 
     @CreationTimestamp

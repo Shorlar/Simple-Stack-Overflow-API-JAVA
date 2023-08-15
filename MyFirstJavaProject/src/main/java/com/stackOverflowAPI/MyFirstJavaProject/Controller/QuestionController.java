@@ -1,8 +1,13 @@
 package com.stackOverflowAPI.MyFirstJavaProject.Controller;
 
 import com.stackOverflowAPI.MyFirstJavaProject.DTO.CreateQuestionDTO;
+import com.stackOverflowAPI.MyFirstJavaProject.DTO.CreateQuestionResponseDTO;
 import com.stackOverflowAPI.MyFirstJavaProject.Service.QuestionService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,8 +22,9 @@ public class QuestionController {
     }
 
     @PostMapping("ask-question")
-    public void createQuestion(CreateQuestionDTO createQuestionDTO){
-//        this.questionService.createQuestion(createQuestionDTO);
-//        return;
+    public ResponseEntity<CreateQuestionResponseDTO> createQuestion(
+            @RequestBody() @Valid CreateQuestionDTO createQuestionDTO,
+            HttpServletRequest request){
+        return ResponseEntity.ok(this.questionService.createQuestion(createQuestionDTO, request));
     }
 }
