@@ -1,5 +1,6 @@
 package com.stackOverflowAPI.MyFirstJavaProject.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,6 +42,7 @@ public class Questions {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private Users users;
 
     @OneToMany(mappedBy = "question", fetch = FetchType.EAGER)

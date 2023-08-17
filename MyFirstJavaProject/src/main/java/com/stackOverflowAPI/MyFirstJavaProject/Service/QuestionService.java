@@ -6,11 +6,12 @@ import com.stackOverflowAPI.MyFirstJavaProject.DTO.CreateQuestionResponseDTO;
 import com.stackOverflowAPI.MyFirstJavaProject.Entities.Questions;
 import com.stackOverflowAPI.MyFirstJavaProject.Entities.Users;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -38,5 +39,10 @@ public class QuestionService {
                 .title(questions.getTitle())
                 .build();
         return response;
+    }
+
+    public List<Questions> viewQuestions(HttpServletRequest request){
+        Users user = (Users) request.getAttribute("currentUser");
+        return repository.findAllByUsersId(user.getId());
     }
 }
