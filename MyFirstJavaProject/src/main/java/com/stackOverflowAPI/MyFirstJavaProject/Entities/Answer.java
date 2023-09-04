@@ -1,7 +1,8 @@
 package com.stackOverflowAPI.MyFirstJavaProject.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
@@ -10,6 +11,9 @@ import java.util.Date;
 
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Answer {
 
     @Id
@@ -22,11 +26,7 @@ public class Answer {
     @Column(name = "answer")
     private String answerBody;
 
-    @ManyToOne
-    @JoinColumn(name = "question_id")
-    private Questions question;
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private Users users;
 
