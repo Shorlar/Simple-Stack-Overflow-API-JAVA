@@ -1,5 +1,6 @@
 package com.stackOverflowAPI.MyFirstJavaProject.Controller;
 
+import com.stackOverflowAPI.MyFirstJavaProject.DTO.AnswerQuestionDTO;
 import com.stackOverflowAPI.MyFirstJavaProject.DTO.CreateQuestionDTO;
 import com.stackOverflowAPI.MyFirstJavaProject.DTO.CreateQuestionResponseDTO;
 import com.stackOverflowAPI.MyFirstJavaProject.Entities.Questions;
@@ -31,5 +32,10 @@ public class QuestionController {
     @GetMapping("view-questions")
     public ResponseEntity<List<Questions>> viewQuestions(HttpServletRequest request){
             return ResponseEntity.ok(questionService.viewQuestions(request));
+    }
+
+    @PostMapping("answer-question")
+    public ResponseEntity<String> answerQuestion(HttpServletRequest request, @RequestBody AnswerQuestionDTO answer){
+        return ResponseEntity.ok(questionService.answerQuestion(request, answer));
     }
 }
