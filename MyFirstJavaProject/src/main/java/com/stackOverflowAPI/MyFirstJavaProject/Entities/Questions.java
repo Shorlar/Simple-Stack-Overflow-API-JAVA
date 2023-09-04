@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -45,9 +46,17 @@ public class Questions {
     @JsonIgnore
     private Users users;
 
-    @OneToMany(mappedBy = "question", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "question_id")
     private List<Answer> answers;
 
     @OneToMany(mappedBy = "question", fetch = FetchType.EAGER)
     private List<Votes> votes;
+
+    public void add(Answer answer){
+        if(answers == null){
+            answers = new ArrayList<>();
+        }
+        answers.add(answer);
+    }
 }
